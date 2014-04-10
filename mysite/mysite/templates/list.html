@@ -1,0 +1,67 @@
+{% extends "bbase.html" %}
+
+{% block content%}
+<style type="text/css">
+    .main { margin-left: 25px; margin-top: 30px; }
+    .time { font-size: 0.8em; margin-top: 2px; }
+    .comment { border: 1px solid #eee; padding: 4px; margin-bottom: 12px; }
+    .body { font-size: 1.1em; margin-top: 2px; }
+    #addc { width: 508px; background: #f5f5f5; padding: 3px; padding-bottom: 8px;border-bottom: 1px dotted #aaa;
+        }
+    #cform { background: #f5f5f5; width: 495px; padding: 10px; padding-bottom: 0px; }
+    #submit { text-align: right; margin-right: 50px; width: 500px; margin-top: 5px; }
+    input{
+        position:relative;
+        border:0px
+        font-size:17x;
+        font-weight:bold;
+        top:1px;
+        width:200px;
+        height:20px;
+    }
+</style>
+
+<h2>{{post.title}}</h2>
+<div align="right">{{post.created|date:"F j,Y"}}</div>
+<div><p>{{post.body|linebreaks}}</p></div>
+
+<!--Next/Prev page links -->
+{% if posts.object_list and posts.paginator.num_pages > 1 %}
+<div class="paginator" style="margin-top:20px; margin-left:-20px;">
+    <span classs="step-links">
+         {% if posts.has_previous %}
+        <a href="?page={{posts.previous_page_number}}">上一篇 &lt;&lt;</a>
+        {% endif %}
+
+        <span class="current">
+            &nbsp;Page {{posts.number}} of {{posts.paginator.num_pages}}
+        </span>
+
+        {% if posts.has_next %}
+        <a href="?page={{posts.next_page_number }}"> &gt;&gt; 下一篇</a>
+         {% endif %}
+     </span>
+</div >
+{% endif %}
+
+{% if comments %}
+<p>Comments:</p>
+{% endif %}
+
+{% for comment in comments %}
+<div class="comment">
+    <div class="time">{{comment.created|date:"F j,Y"} }|{{comment.author}}</div>
+    <div class="body">{{comment.body|linebreaks}}</div>
+</div>
+{% endfor %}
+
+<br />
+<div style="width: 508px; background: #f5f5f5; padding: 3px; padding-bottom: 8px;border-bottom: 1px dotted #aaa; "> Add a comment:</div>
+<form action="{% url 'blog.views.add_comment' post.id %}" method="POST">{% csrf_token %}
+<div style="background: #f5f5f5; width: 495px; padding: 10px; padding-bottom: 0px;">
+    <div>Name:&nbsp;&nbsp;&nbsp;{{form.author}}</div>
+    <div>{{form.body|linebreaks}}</div>
+</div>
+<div style="text-align: right; margin-right: 50px; width: 500px; margin-top: 5px;"><input type="submit" value="Submit"></div>
+</form>
+{% endblock %}

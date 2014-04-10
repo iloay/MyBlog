@@ -1,0 +1,11 @@
+{% extends "bbase.html" %}
+
+{% block content%}
+{% for post in posts %}
+<ul>
+    <h2>{{post.title}}</h2>
+    <p>{{post.body|truncatewords:"100"}}</p>
+    <div align="right">{{post.created|date:"F j,Y"}}</div>
+</ul>
+{% endfor %}
+{% endblock %}

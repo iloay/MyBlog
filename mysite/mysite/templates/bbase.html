@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <title>{% block title %}Blog{% endblock %}</title>
+    <!-- <meta http-equiv="refresh" content="2">  -->
+    <style type="text/css">
+     body,html{
+		margin:0;
+		padding:0;
+		color:#000;
+		background:#a7a09a;
+	}
+	#wrap {
+		width:900px;
+		margin:0 auto;
+		background:#99c;
+	}
+	#header {
+    	padding:5px 10px;
+		background:#ddd;
+	}
+	h1 {
+	    margin:0;
+    }
+	#nav {
+		padding:5px 10px;
+		background:#c99;
+	}
+	#nav ul {
+		margin:0;
+		padding:0;
+		list-style:none;
+	}
+	#nav li {
+		display:inline;
+		margin:0;
+		padding:0;
+	}
+	#content{
+		float:left;
+		width:630px;
+        height:1600px;
+		padding:10px;
+		background:#9c9;
+	}
+	h2 {
+		margin:0 0 1em;
+	}
+	#sidebar {
+		float:right;
+		width:230px;
+        height:1600px;
+		padding:10px;
+		background:#99c;
+	}
+    .search{
+        width:200px
+        height:42px
+    }
+    input{
+        position:relative;
+        border:0px
+        font-size:17x;
+        font-weight:bold;
+        color:black;
+        top:15px;
+        width:150px;
+        height:20px;
+    }
+	#footer {
+		clear:both;
+		padding:5px 10px;
+		background:#cc9;
+	}
+	#footer p {
+		margin:0;
+    }
+	* html #footer {
+		height:1px;
+	}
+	</style>
+</head>
+
+<body>
+    <div id="wrap">
+	    <div id="header"><h1>Yaoli's Column</h1></div>
+	    <div id="nav">
+            {% if user.is_staff %}
+            <a href="{% url 'blog.views.show' template_name='catalog.html' %}"><span>Catalog View</span></a>&nbsp;&nbsp;
+            <a href="{% url 'blog.views.show' template_name='abstract.html'%}"><span>Abstract View</span></a>&nbsp;&nbsp;
+            <a href="#"><span>Subscibe</span></a>&nbsp;&nbsp;
+            <a href="{% url 'admin:index' %}"><span>Manage Blog</span></a>&nbsp;&nbsp;
+            <a href="{% url 'admin:blog_post_add' %}"><span>Write New Blog</span></a>
+            {% endif %}
+	    </div>
+        <div id="sidebar"> 
+            {% block sidebar %}
+            <div>
+                <h2>Personal Profile</h2>
+                {% load staticfiles %}
+                <img src="{% static "myself.jpg" %}" width="200px" height="200px" /><br />
+                <div style="text-align:center;"><p>iloay</p></div>
+            </div>
+            <div>
+                <h2>Blog Search</h2>
+                <div class="search">
+                    <input type="input" name="search"/>
+                </div>
+            </div>
+            <br />
+            <br />
+            <div>
+                <h2>Blog Archive</h2>
+                {% block archive %}
+                {% endblock %}
+            </div>
+            {% endblock %} 
+        </div>
+        <div id="content">
+            {% block content %}{% endblock %}
+        </div>
+    </div>
+</body>
+</html>
+

@@ -1,0 +1,31 @@
+{% extends "bbase.html" %}
+{% block content %}
+{% for post in posts %}
+<ul>
+    <div>
+        <h2><a href="{% url 'blog.views.full' post.id %}">{{post.title}}</a></h2><br />
+        <p>{{post.body|linebreaks}}</p> <br />
+        <div align="right" >{{post.created | date:"F j,Y"}}</div>
+    </div>
+</ul>
+{% endfor %}
+
+<!--Next/Prev page links -->
+{% if posts.object_list and posts.paginator.num_pages > 1 %}
+<div class="paginator" style="margin-top:20px; margin-left:20px;">
+    <span classs="step-links">
+        {% if posts.has_previous %}
+        <a href="?page={{posts.previous_page_number}}">上一页 &lt;&lt;</a>
+        {% endif %}
+
+        <span class="current">
+            &nbsp;Page {{posts.number}} of {{posts.paginator.num_pages}}
+        </span>
+
+        {% if posts.has_next %}
+        <a href="?page={{posts.next_page_number }}"> &gt;&gt; 下一页</a>
+        {% endif %}
+    </span>
+</div>
+{% endif %}
+{% endblock %}
